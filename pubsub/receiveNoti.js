@@ -25,6 +25,11 @@ const receiveNoti = async()=>{
         await channel.consume(queue,msg => {
             console.log(`msg::`,msg.content.toString())
         },{
+            /*Sử dụng thuộc tính autoAck
+           sử dụng thuộc tính autoAck là true khi Consumer nhận Message, thuộc tính này chỉ ra răng một ACK message sẽ được auto gửi đến RabbitMQ để báo với RabbitMQ rằng một Message đã được Consumer nhận, 
+            xử lý và Rabbit có thể xoá nó. Một vấn đề đặt ra là nếu một Consumer xử lý Task trong một thời gian dài, chỉ một phần của Task được hoàn thành và nó die. 
+            Khi đó, Message đã bị xoá bởi RabbitQM và Task sẽ bị mất. Để giải quyết vấn đề này, chúng ta sẽ không auto gửi Message, mà chúng ta sẽ gửi một ACK message đến RabbitMQ khi nó hoàn thành xử lý Message
+            */
             noAck:true
         })
 
